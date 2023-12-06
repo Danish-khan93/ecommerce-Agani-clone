@@ -1,0 +1,16 @@
++ landing page starting (1-12-2023 date)
+
+  + header  completed 
+  + herosection  completed
+  + brwose product completed
+  + main page product completed
+  + second hero section completed
+    + slider completed
+    + inpiration section completed
+    +  other inner section completed
+  + images dispaly senction   incomplete
+  +footer section complete
+
+
+  + routing setUp incomplete
+  + redux toolkit setup in process
