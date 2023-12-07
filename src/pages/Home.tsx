@@ -1,35 +1,14 @@
 import { Box, Typography, Button } from "@mui/material";
-import {
-  HeroSection,
-  Card,
-  SecondHeroSetcion,
-  //   GallerySection,
-} from "../component";
-
-import axios from "axios";
-import { useEffect, useState } from "react";
-
-const Baseurl = "https://dummyjson.com/products";
+import { HeroSection, Card, SecondHeroSetcion } from "../component";
+import { useProductData } from "../customeHook/useProductData";
 const Home = () => {
-  const [products, setProducts] = useState<any>([]);
-  console.log(products);
+  
 
-  const product = async () => {
-    try {
-      await axios
-        .get(`${Baseurl}?limit=8`)
-        .then((res) => setProducts(res.data.products));
-    } catch (error) {
-      console.log(error);
-    }
+  const handleClick = () => {
+  console.log("incomplet feature for showmore button");
+  
   };
-
-  useEffect(() => {
-    product();
-  }, []);
-
-  const handleClick = () => {};
-
+  const { products } = useProductData();
   return (
     <>
       <HeroSection />

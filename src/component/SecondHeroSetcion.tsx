@@ -9,7 +9,10 @@ const SecondHeroSetcion = () => {
       <Box className="flex flex-col w-[(100/3)%] gap-4 p-10">
         <Box>
           <Typography className="font-bold text-[40px] text-[#3A3A3A]">
-            50+ Beautiful and inspiration Design
+            50+ Beautiful and
+          </Typography>
+          <Typography className="font-bold text-[40px] text-[#3A3A3A]">
+            inspiration Design
           </Typography>
         </Box>
         <Box>
@@ -18,7 +21,7 @@ const SecondHeroSetcion = () => {
           </Typography>
         </Box>
         <Box>
-          <Button className="text-white bg-[#B88E2F] font-bold rounded-none py-[20px] px-[35px]">
+          <Button className="text-white bg-[#B88E2F] hover:bg-[#B88E2F] font-bold rounded-none py-[20px] px-[35px]">
             Explore more
           </Button>
         </Box>
