@@ -1,6 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { HeroSection, Card, SecondHeroSetcion } from "../component";
 import { useProductData } from "../customeHook/useProductData";
+import {END_POINT_PRODUCTS} from "../Api/EndPoints"
 const Home = () => {
   
 
@@ -8,7 +9,7 @@ const Home = () => {
   console.log("incomplet feature for showmore button");
   
   };
-  const { products } = useProductData();
+  const { products } = useProductData(END_POINT_PRODUCTS);
   return (
     <>
       <HeroSection />

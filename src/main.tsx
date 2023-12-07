@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { StyledEngineProvider } from "@mui/material";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { About, Home, Shop, Contact } from "./pages";
+import { About, Home, Shop, Contact, Product, NotFound } from "./pages";
 import Layout from "./LayOut/Layout";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
@@ -23,12 +23,20 @@ const router = createBrowserRouter([
         element: <Shop />,
       },
       {
+        path: "products/:productid",
+        element: <Product />,
+      },
+      {
         path: "about",
         element: <About />,
       },
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

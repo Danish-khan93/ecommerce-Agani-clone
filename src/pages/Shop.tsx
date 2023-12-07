@@ -4,6 +4,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ShopBg from "../assets/headerIcon/SHOPBG.jpg";
 import Card from "../component/Card";
 import { useProductData } from "../customeHook/useProductData";
+import {END_POINT_PRODUCTS} from "../Api/EndPoints"
 const Shop = () => {
   const breadcrumbs = [
     <Link key="1" to="/">
@@ -13,7 +14,7 @@ const Shop = () => {
       Shop
     </Link>,
   ];
-  const { products } = useProductData();
+  const { products } = useProductData(END_POINT_PRODUCTS);
   return (
     <>
       <Box
@@ -34,7 +35,11 @@ const Shop = () => {
 
       <Box className="flex flex-wrap justify-evenly">
         {products.map((value: any) => {
-          return <Card key={value.id} product={value} />;
+          return (
+            <Link to={`/products/${value.id}`} key={value.id}>
+              <Card key={value.id} product={value} />;
+            </Link>
+          );
         })}
       </Box>
     </>
