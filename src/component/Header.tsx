@@ -1,5 +1,5 @@
-import { AppBar, Toolbar, Box, Typography,IconButton } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Toolbar, Box, Typography, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { navStyle } from "./navStyleed";
 import { navLink, navlink2 } from "./constant/headerconstant";
 import { NAVLINKTYPO, NAVLINKTYPO2 } from "./types/navTypes";
@@ -19,7 +19,7 @@ const Header = () => {
         <Box className="flex items-center gap-8 max-sm:hidden">
           {navLink.map((links: NAVLINKTYPO) => {
             return (
-              <Link to={`${links.link}`} key={links?.link}>
+              <Link to={`${links.link}`} key={links?.link.toString()}>
                 <Typography className={navStyle.text}>
                   {links?.title}
                 </Typography>
@@ -39,7 +39,9 @@ const Header = () => {
           })}
         </Box>
         <Box className="2xl:hidden xl:hidden lg:hidden md:hidden    ">
-            <IconButton><MenuIcon/></IconButton>
+          <IconButton>
+            <MenuIcon />
+          </IconButton>
         </Box>
       </Toolbar>
     </AppBar>

@@ -4,7 +4,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { StyledEngineProvider } from "@mui/material";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { About, Home, Shop, Contact, Product, NotFound } from "./pages";
+import {
+  About,
+  Home,
+  Shop,
+  Contact,
+  Product,
+  NotFound,
+  SignUp,
+  Login,
+} from "./pages";
 import Layout from "./LayOut/Layout";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
@@ -37,6 +46,14 @@ const router = createBrowserRouter([
       {
         path: "*",
         element: <NotFound />,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },
