@@ -6,7 +6,7 @@ const Card = ({ product }: any) => {
   const descriptionUpdated = description.slice(0, 40) + "...";
 
   return (
-    <Paper className="flex flex-col w-[380px] p-5 my-5">
+    <Paper className="flex flex-col p-5 my-5 min-[768px]:w-[300px]">
       <Box className={"h-[250px] my-4"}>
         <Typography
           className={cardStyle.image}
