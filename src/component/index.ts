@@ -5,6 +5,7 @@ import SecondHeroSetcion from "./SecondHeroSetcion";
 import ProductSlider from "./ProductSlider";
 import GallerySection from "./GallerySection";
 import Footer from "./Footer";
+import SelectBox from "./SelectBox";
 import ContactForm from "./ContactForm";
 export {
   Card,
@@ -14,5 +15,6 @@ export {
   ProductSlider,
   GallerySection,
   Footer,
-  ContactForm
+  ContactForm,
+  SelectBox,
 };

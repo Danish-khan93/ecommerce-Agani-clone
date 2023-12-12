@@ -4,9 +4,9 @@ const Card = ({ product }: any) => {
   const { description, thumbnail, title, price } = product;
 
   const descriptionUpdated = description.slice(0, 40) + "...";
-
+  // min-[768px]:w-[300px]
   return (
-    <Paper className="flex flex-col p-5 my-5 min-[768px]:w-[300px]">
+    <Paper className="flex flex-col p-5 my-5 w-[300px] ">
       <Box className={"h-[250px] my-4"}>
         <Typography
           className={cardStyle.image}

@@ -1,10 +1,12 @@
-import { Box, Typography, Breadcrumbs } from "@mui/material";
+import { Box, Typography, Breadcrumbs, Pagination } from "@mui/material";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ShopBg from "../assets/headerIcon/SHOPBG.jpg";
 import Card from "../component/Card";
-import { useProductData } from "../customeHook/useProductData";
-import {END_POINT_PRODUCTS} from "../Api/EndPoints"
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getAllProduct } from "../redux/features/product/productSlice";
+import { SelectBox } from "../component";
 const Shop = () => {
   const breadcrumbs = [
     <Link key="1" to="/">
@@ -14,7 +16,27 @@ const Shop = () => {
       Shop
     </Link>,
   ];
-  const { products } = useProductData(END_POINT_PRODUCTS);
+  // const [page,setPage] = useState(1)
+  //   const [limit, setLimit] = useState(10);
+  //   const [skip, setSkip] = useState(0);
+
+  const products = useSelector(
+    (state: any) => state.productStore.products.products
+  );
+  const loading = useSelector((state: any) => state.productStore.isLoading);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // @ts-ignore
+    dispatch(getAllProduct({ limit: 8, skip: 0 }));
+  },[]);
+
+  const handleChange = () => {
+    // setPage(p)
+  };
+
+if(loading) return null
+
   return (
     <>
       <Box
@@ -32,16 +54,19 @@ const Shop = () => {
           {breadcrumbs}
         </Breadcrumbs>
       </Box>
-
-      <Box className="flex flex-wrap justify-evenly">
-        {products.map((value: any) => {
-          return (
-            <Link to={`/products/${value.id}`} key={value.id}>
-              <Card key={value.id} product={value} />;
-            </Link>
-          );
-        })}
+      <Box className="bg-[#F9F1E7] h-20 flex items-center pl-5">
+        <SelectBox />
       </Box>
+      <Box className="flex flex-wrap justify-evenly">
+        { products.map((value: any) => {
+              return (
+                <Link to={`/products/${value.id}`} key={value.id}>
+                  <Card key={value.id} product={value} />
+                </Link>
+              );
+            })}
+      </Box>
+      <Pagination count={10} onChange={handleChange} />
     </>
   );
 };
