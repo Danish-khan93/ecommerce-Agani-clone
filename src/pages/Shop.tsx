@@ -24,6 +24,7 @@ const Shop = () => {
     </Link>,
   ];
   const [page, setPage] = useState(1);
+  // @ts-ignore
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(0);
   console.log(skip);
@@ -41,6 +42,7 @@ const Shop = () => {
     dispatch(getAllProduct({ limit: limit, skip: skip }));
   }, [limit, skip, page]);
 
+  // @ts-ignore
   const handleChange = (e: any, p: number) => {
     // console.log(e.target);
 
@@ -77,8 +79,13 @@ const Shop = () => {
         {loading
           ? products.map((value: any) => {
               return (
-
-                <Skeleton animation="wave" variant="rectangular" width={300} height={400} key={value.id}/>
+                <Skeleton
+                  animation="wave"
+                  variant="rectangular"
+                  width={300}
+                  height={400}
+                  key={value.id}
+                />
               );
             })
           : products.map((value: any) => {
@@ -89,7 +96,10 @@ const Shop = () => {
               );
             })}
       </Box>
-      <Pagination count={10} onChange={handleChange} />
+      <Box className= "flex justify-center my-14">
+
+      <Pagination count={10} onChange={handleChange} variant="outlined" shape="rounded" color="standard" />
+      </Box>
     </>
   );
 };
