@@ -7,13 +7,16 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+// import { useDispatch } from "react-redux";
+// import { catagoryFilter } from "../redux/features/product/productSlice";
 const SelectBox = () => {
   const [items, setItems] = useState<String[] | []>([]);
   const [selecteditems, setSelectedItems] = useState<string>("");
 
   console.log(selecteditems);
   console.log(items);
+
+//   const dispatch = useDispatch();
 
   const response = async () => {
     try {
@@ -29,7 +32,10 @@ const SelectBox = () => {
 
   useEffect(() => {
     response();
-  }, []);
+
+    // @ts-ignore
+    // dispatch(catagoryFilter(selecteditems));
+  }, [selecteditems]);
 
   const changeHandle = (e: SelectChangeEvent) => {
     setSelectedItems(e?.target?.value);
@@ -44,9 +50,9 @@ const SelectBox = () => {
         value={selecteditems}
         onChange={changeHandle}
         label="Catagory Filter"
-        className="w-[150px] text-[#000] bg-[#fff]"
+        className="w-[250px] text-[#000] bg-[#fff] "
       >
-        <MenuItem value="" disabled>
+        <MenuItem className="bg-red-500" value="" disabled>
           Catagory Filter
         </MenuItem>
         {items.map((value: any | string, index) => {

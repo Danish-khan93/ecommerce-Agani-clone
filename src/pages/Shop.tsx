@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllProduct } from "../redux/features/product/productSlice";
 import { SelectBox } from "../component";
+import { useState } from "react";
 const Shop = () => {
   const breadcrumbs = [
     <Link key="1" to="/">
@@ -16,9 +17,12 @@ const Shop = () => {
       Shop
     </Link>,
   ];
-  // const [page,setPage] = useState(1)
-  //   const [limit, setLimit] = useState(10);
-  //   const [skip, setSkip] = useState(0);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [skip, setSkip] = useState(0);
+  console.log(skip);
+
+  console.log(page);
 
   const products = useSelector(
     (state: any) => state.productStore.products.products
@@ -28,14 +32,18 @@ const Shop = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     // @ts-ignore
-    dispatch(getAllProduct({ limit: 8, skip: 0 }));
-  },[]);
+    dispatch(getAllProduct({ limit: limit, skip: skip }));
+  }, []);
 
-  const handleChange = () => {
-    // setPage(p)
+  const handleChange = (e, p) => {
+    setPage(p);
+    // setLimit(limit)
+    setSkip(p * limit);
+    // @ts-ignore
+    // dispatch(getAllProduct({ limit: limit, skip: skip }));
   };
 
-if(loading) return null
+  if (loading) return null;
 
   return (
     <>
@@ -58,13 +66,13 @@ if(loading) return null
         <SelectBox />
       </Box>
       <Box className="flex flex-wrap justify-evenly">
-        { products.map((value: any) => {
-              return (
-                <Link to={`/products/${value.id}`} key={value.id}>
-                  <Card key={value.id} product={value} />
-                </Link>
-              );
-            })}
+        {products.map((value: any) => {
+          return (
+            <Link to={`/products/${value.id}`} key={value.id}>
+              <Card key={value.id} product={value} />
+            </Link>
+          );
+        })}
       </Box>
       <Pagination count={10} onChange={handleChange} />
     </>
