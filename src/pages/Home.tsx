@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button,Skeleton } from "@mui/material";
 import { HeroSection, Card, SecondHeroSetcion } from "../component";
 import { getAllProduct } from "../redux/features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +32,7 @@ const Home = () => {
     console.log("incomplet feature for showmore button");
   };
 
-  if (dataFromStoreLoading) return null;
+  // if (dataFromStoreLoading) return null;
   return (
     <>
       <HeroSection />
@@ -46,7 +46,18 @@ const Home = () => {
         </Typography>
       </Box>
       <Box className="flex flex-wrap justify-evenly">
-        {dataFromStore.map((value: any) => {
+        {dataFromStoreLoading ?
+        dataFromStore.map((value: any) => {
+          return <Skeleton
+          animation="wave"
+          variant="rectangular"
+          width={300}
+          height={400}
+          key={value.id}
+        />;
+        }):
+        
+        dataFromStore.map((value: any) => {
           return <Card key={value.id} product={value} />;
         })}
       </Box>
