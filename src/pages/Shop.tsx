@@ -1,4 +1,10 @@
-import { Box, Typography, Breadcrumbs, Pagination } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Breadcrumbs,
+  Pagination,
+  Skeleton,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ShopBg from "../assets/headerIcon/SHOPBG.jpg";
@@ -33,17 +39,19 @@ const Shop = () => {
   useEffect(() => {
     // @ts-ignore
     dispatch(getAllProduct({ limit: limit, skip: skip }));
-  }, []);
+  }, [limit, skip, page]);
 
-  const handleChange = (e, p) => {
-    setPage(p);
+  const handleChange = (e: any, p: number) => {
+    // console.log(e.target);
+
+    setPage((preval) => preval + p);
     // setLimit(limit)
     setSkip(p * limit);
     // @ts-ignore
     // dispatch(getAllProduct({ limit: limit, skip: skip }));
   };
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <>
@@ -66,13 +74,20 @@ const Shop = () => {
         <SelectBox />
       </Box>
       <Box className="flex flex-wrap justify-evenly">
-        {products.map((value: any) => {
-          return (
-            <Link to={`/products/${value.id}`} key={value.id}>
-              <Card key={value.id} product={value} />
-            </Link>
-          );
-        })}
+        {loading
+          ? products.map((value: any) => {
+              return (
+
+                <Skeleton animation="wave" variant="rectangular" width={300} height={400} key={value.id}/>
+              );
+            })
+          : products.map((value: any) => {
+              return (
+                <Link to={`/products/${value.id}`} key={value.id}>
+                  <Card key={value.id} product={value} />
+                </Link>
+              );
+            })}
       </Box>
       <Pagination count={10} onChange={handleChange} />
     </>
