@@ -1,14 +1,10 @@
-import { Box, Typography, Button,Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton } from "@mui/material";
 import { HeroSection, Card, SecondHeroSetcion } from "../component";
 import { getAllProduct } from "../redux/features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Home = () => {
-  const [limit, setLimit] = useState(10);
-  
-  console.log(limit);
-
   const dispatch = useDispatch();
   const dataFromStore = useSelector((state: any) => {
     return state.productStore.products.products;
@@ -17,22 +13,19 @@ const Home = () => {
     return state.productStore.isLoading;
   });
   console.log(dataFromStore);
-
+  const limit = 10;
   useEffect(() => {
     // @ts-ignore
-
-    dispatch(getAllProduct({ limit: limit }));
+    dispatch(getAllProduct(limit));
   }, []);
 
-  const handleClick = () => {
-    setLimit(limit + 10);
-    // @ts-ignore
-    dispatch(getAllProduct({ limit: limit }));
-
-    console.log("incomplet feature for showmore button");
-  };
-
-  // if (dataFromStoreLoading) return null;
+  const listOfProduct = dataFromStoreLoading ? (
+    <Skeleton animation="wave" variant="rectangular" width={300} height={400} />
+  ) : (
+    dataFromStore.map((value: any) => {
+      return <Card key={value.id} product={value} />;
+    })
+  );
   return (
     <>
       <HeroSection />
@@ -45,32 +38,8 @@ const Home = () => {
           commodi, dolorum corporis ipsum ipsa vel.
         </Typography>
       </Box>
-      <Box className="flex flex-wrap justify-evenly">
-        {dataFromStoreLoading ?
-        dataFromStore.map((value: any) => {
-          return <Skeleton
-          animation="wave"
-          variant="rectangular"
-          width={300}
-          height={400}
-          key={value.id}
-        />;
-        }):
-        
-        dataFromStore.map((value: any) => {
-          return <Card key={value.id} product={value} />;
-        })}
-      </Box>
-      <Box className="flex justify-center my-10 ">
-        {limit === 100 ? null : (
-          <Button
-            onClick={handleClick}
-            className="bg-white text-[#B88E2F] text-[16px] font-bold border-solid border-2 border-[#B88E2F] py-[20px] px-[30px]"
-          >
-            Show more
-          </Button>
-        )}
-      </Box>
+      <Box className="flex flex-wrap justify-evenly">{listOfProduct}</Box>
+      <Box className="flex justify-center my-10 "></Box>
       <SecondHeroSetcion />
     </>
   );

@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllProduct = createAsyncThunk(
   "getAllProduct/products",
   async (
-    { limit, skip=0 }: { limit: number; skip: number },
+    { limit=10, skip=0 }: { limit: number; skip: number },
     { rejectWithValue }
   ) => {
     try {
@@ -24,20 +24,6 @@ export const getAllProduct = createAsyncThunk(
   }
 );
 
-// catagory filter
-
-// export const catagoryFilter  =createAsyncThunk("catagoryFilter",async(filter,{rejectWithValue})=>{
-//   console.log(filter);
-
-// try {
-//   const data = await axios.get(`https://dummyjson.com/products/category/${filter}`);
-//   console.log(data?.data);
-
-//   return data?.data;
-// } catch (error) {
-//   return rejectWithValue(error)
-// }
-// })
 
 const initialState = {
   products: [],
@@ -62,26 +48,11 @@ export const productSlice = createSlice({
       // @ts-ignore
       state.isError = action.payload;
     });
-    // catagory filter
-    // builder.addCase(catagoryFilter.pending, (state) => {
-    //   state.isLoading = true;
-    // });
-    // builder.addCase(catagoryFilter.fulfilled, (state, action) => {
-    //   state.isLoading = false;
-    //   // @ts-ignore
-    //   state.category = action.payload;
-    // });
-    // builder.addCase(catagoryFilter.rejected, (state, action) => {
-    //   // @ts-ignore
-    //   state.isError = action.payload;
-    // });
+   
   },
 
   reducers: {
-    // @ts-ignore
-    // getAllProduct: (state, action) => {
-    //   console.log(state);
-    // },
+   
   },
 });
 

@@ -16,7 +16,7 @@ const SelectBox = () => {
   console.log(selecteditems);
   console.log(items);
 
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
 
   const response = async () => {
     try {
@@ -24,6 +24,20 @@ const SelectBox = () => {
         .get("https://dummyjson.com/products/categories")
         .then((res) => {
           setItems(res?.data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const dropDownResponse = async (selecteditems: String) => {
+    console.log(selecteditems);
+    
+    try {
+      await axios
+        .get(`https://dummyjson.com/products/category/${selecteditems}`)
+        .then((res) => {
+          console.log(res?.data);
         });
     } catch (error) {
       console.log(error);
@@ -39,6 +53,7 @@ const SelectBox = () => {
 
   const changeHandle = (e: SelectChangeEvent) => {
     setSelectedItems(e?.target?.value);
+    dropDownResponse(e?.target?.value);
   };
 
   return (

@@ -44,7 +44,7 @@ const Shop = () => {
 
   // @ts-ignore
   const handleChange = (e: any, p: number) => {
-    // console.log(e.target);
+    
 
     setPage((preval) => preval + p);
     // setLimit(limit)
@@ -53,7 +53,7 @@ const Shop = () => {
     // dispatch(getAllProduct({ limit: limit, skip: skip }));
   };
 
-  // if (loading) return null;
+  if (loading) return null;
 
   return (
     <>
