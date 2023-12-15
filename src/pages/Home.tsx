@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const Home = () => {
   const dispatch = useDispatch();
   const dataFromStore = useSelector((state: any) => {
-    return state.productStore.products.products;
+    return state.productStore.products;
   });
   const dataFromStoreLoading = useSelector((state: any) => {
     return state.productStore.isLoading;
@@ -22,10 +22,13 @@ const Home = () => {
   const listOfProduct = dataFromStoreLoading ? (
     <Skeleton animation="wave" variant="rectangular" width={300} height={400} />
   ) : (
+    dataFromStore &&
     dataFromStore.map((value: any) => {
       return <Card key={value.id} product={value} />;
     })
   );
+
+  if (dataFromStoreLoading) return null;
   return (
     <>
       <HeroSection />

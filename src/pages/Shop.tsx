@@ -3,17 +3,18 @@ import {
   Typography,
   Breadcrumbs,
   Pagination,
-  Skeleton,
+  // Skeleton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ShopBg from "../assets/headerIcon/SHOPBG.jpg";
-import Card from "../component/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getAllProduct } from "../redux/features/product/productSlice";
-import { SelectBox } from "../component";
-import { useState } from "react";
+// import Card from "../component/Card";
+import { 
+  // useDispatch, 
+  useSelector } from "react-redux";
+// import { useEffect,useState } from "react";
+// import { getAllProduct } from "../redux/features/product/productSlice";
+// import { SelectBox } from "../component";
 const Shop = () => {
   const breadcrumbs = [
     <Link key="1" to="/">
@@ -23,37 +24,37 @@ const Shop = () => {
       Shop
     </Link>,
   ];
-  const [page, setPage] = useState(1);
-  // @ts-ignore
-  const [limit, setLimit] = useState(10);
-  const [skip, setSkip] = useState(0);
-  console.log(skip);
+  
+  // const [page, setPage] = useState(1);
+  // const [limit, setLimit] = useState(10);
+  // const [skip, setSkip] = useState(0);
+// console.log(page,"lora");
 
-  console.log(page);
 
-  const products = useSelector(
-    (state: any) => state.productStore.products.products
-  );
-  const loading = useSelector((state: any) => state.productStore.isLoading);
+  const {products,isLoading} = useSelector(
+    (state: any) => state.productStore
+  )
+  console.log(products,isLoading);
+  
+  // const loading = useSelector((state: any) => state.productStore.isLoading);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // @ts-ignore
-    dispatch(getAllProduct({ limit: limit, skip: skip }));
-  }, [limit, skip, page]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   dispatch(getAllProduct({ limit: limit, skip: skip }));
+  // }, [limit, skip, page]);
 
   // @ts-ignore
   const handleChange = (e: any, p: number) => {
+    console.log(p,"tpoa");
     
 
-    setPage((preval) => preval + p);
-    // setLimit(limit)
-    setSkip(p * limit);
-    // @ts-ignore
-    // dispatch(getAllProduct({ limit: limit, skip: skip }));
+    // setPage( p);
+  
+    // setSkip(p * limit);
   };
 
-  if (loading) return null;
+  // if (loading) return null;
 
   return (
     <>
@@ -73,10 +74,10 @@ const Shop = () => {
         </Breadcrumbs>
       </Box>
       <Box className="bg-[#F9F1E7] h-20 flex items-center pl-5">
-        <SelectBox />
+        {/* <SelectBox /> */}
       </Box>
       <Box className="flex flex-wrap justify-evenly">
-        {loading
+        {/* {loading
           ? products.map((value: any) => {
               return (
                 <Skeleton
@@ -94,7 +95,7 @@ const Shop = () => {
                   <Card key={value.id} product={value} />
                 </Link>
               );
-            })}
+            })} */}
       </Box>
       <Box className= "flex justify-center my-14">
 

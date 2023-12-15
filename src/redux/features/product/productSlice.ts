@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllProduct = createAsyncThunk(
   "getAllProduct/products",
   async (
-    { limit=10, skip=0 }: { limit: number; skip: number },
+    { limit = 10, skip = 0 }: { limit: number; skip: number },
     { rejectWithValue }
   ) => {
     try {
@@ -24,7 +24,6 @@ export const getAllProduct = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   products: [],
   // category:[],
@@ -42,18 +41,16 @@ export const productSlice = createSlice({
     builder.addCase(getAllProduct.fulfilled, (state, action) => {
       state.isLoading = false;
       // @ts-ignore
-      state.products = action.payload;
+      state.products = action.payload.products;
+      // state.products.push( ...action.payload)
     });
     builder.addCase(getAllProduct.rejected, (state, action) => {
       // @ts-ignore
       state.isError = action.payload;
     });
-   
   },
 
-  reducers: {
-   
-  },
+  reducers: {},
 });
 
 // export const { getAllProduct } = productSlice.actions;
