@@ -3,15 +3,15 @@ import {
   Typography,
   Breadcrumbs,
   Pagination,
-  // Skeleton,
+  Skeleton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ShopBg from "../assets/headerIcon/SHOPBG.jpg";
-// import Card from "../component/Card";
-import { 
-  // useDispatch, 
-  useSelector } from "react-redux";
+import Card from "../component/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { ProductStore, Product } from "../component/types/responseAndStore";
 // import { useEffect,useState } from "react";
 // import { getAllProduct } from "../redux/features/product/productSlice";
 // import { SelectBox } from "../component";
@@ -24,33 +24,26 @@ const Shop = () => {
       Shop
     </Link>,
   ];
-  
-  // const [page, setPage] = useState(1);
-  // const [limit, setLimit] = useState(10);
-  // const [skip, setSkip] = useState(0);
-// console.log(page,"lora");
 
+  const [page, setPage] = useState(1);
+  const [urlParam, setUrlsParam] = useState({ limit: 10, skip: 0 });
 
-  const {products,isLoading} = useSelector(
+  console.log(page, "page");
+
+  const { products, isLoading } = useSelector(
     (state: any) => state.productStore
-  )
-  console.log(products,isLoading);
-  
-  // const loading = useSelector((state: any) => state.productStore.isLoading);
+  );
+  console.log(products, isLoading);
 
   // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   // @ts-ignore
-  //   dispatch(getAllProduct({ limit: limit, skip: skip }));
-  // }, [limit, skip, page]);
+  useEffect(() => {
+    // @ts-ignore
+    // dispatch(getAllProduct(urlParam));
+  }, [urlParam, page]);
 
   // @ts-ignore
   const handleChange = (e: any, p: number) => {
-    console.log(p,"tpoa");
-    
-
-    // setPage( p);
-  
+    setPage(p);
     // setSkip(p * limit);
   };
 
@@ -77,8 +70,8 @@ const Shop = () => {
         {/* <SelectBox /> */}
       </Box>
       <Box className="flex flex-wrap justify-evenly">
-        {/* {loading
-          ? products.map((value: any) => {
+        {isLoading
+          ? products.map((value: Product) => {
               return (
                 <Skeleton
                   animation="wave"
@@ -89,17 +82,22 @@ const Shop = () => {
                 />
               );
             })
-          : products.map((value: any) => {
+          : products.map((value: Product) => {
               return (
                 <Link to={`/products/${value.id}`} key={value.id}>
                   <Card key={value.id} product={value} />
                 </Link>
               );
-            })} */}
+            })}
       </Box>
-      <Box className= "flex justify-center my-14">
-
-      <Pagination count={10} onChange={handleChange} variant="outlined" shape="rounded" color="standard" />
+      <Box className="flex justify-center my-14">
+        <Pagination
+          count={10}
+          onChange={handleChange}
+          variant="outlined"
+          shape="rounded"
+          color="standard"
+        />
       </Box>
     </>
   );

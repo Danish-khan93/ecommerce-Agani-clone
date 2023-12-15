@@ -2,9 +2,11 @@ import { Box, Typography, Skeleton } from "@mui/material";
 import { HeroSection, Card, SecondHeroSetcion } from "../component";
 import { getAllProduct } from "../redux/features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Home = () => {
+  // @ts-ignore
+  const [urlParam, setUrlsParam] = useState({ limit: 10, skip: 0 });
   const dispatch = useDispatch();
   const dataFromStore = useSelector((state: any) => {
     return state.productStore.products;
@@ -13,10 +15,10 @@ const Home = () => {
     return state.productStore.isLoading;
   });
   console.log(dataFromStore);
-  const limit = 10;
+
   useEffect(() => {
     // @ts-ignore
-    dispatch(getAllProduct(limit));
+    dispatch(getAllProduct(urlParam));
   }, []);
 
   const listOfProduct = dataFromStoreLoading ? (

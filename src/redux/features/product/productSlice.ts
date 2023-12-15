@@ -4,7 +4,7 @@ import axios from "axios";
 export const getAllProduct = createAsyncThunk(
   "getAllProduct/products",
   async (
-    { limit = 10, skip = 0 }: { limit: number; skip: number },
+    { limit, skip }: { limit: number; skip: number },
     { rejectWithValue }
   ) => {
     try {
