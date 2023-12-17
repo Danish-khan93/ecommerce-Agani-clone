@@ -1,9 +1,9 @@
-export type ProductStore = {
-  products: Product[];
+export type PRODUCTSTORE = {
+  products: PRODUCT[] | [];
   isLoading: boolean;
   isError?: any;
 };
-export type Product = {
+export type PRODUCT = {
   id: number;
   title: string;
   description: string;
@@ -16,3 +16,8 @@ export type Product = {
   thumbnail: string;
   images: string[];
 };
+
+export type URLPARAM ={
+  limit:number,
+  skip:number
+}

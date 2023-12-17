@@ -10,11 +10,13 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ShopBg from "../assets/headerIcon/SHOPBG.jpg";
 import Card from "../component/Card";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { ProductStore, Product } from "../component/types/responseAndStore";
-// import { useEffect,useState } from "react";
-// import { getAllProduct } from "../redux/features/product/productSlice";
-// import { SelectBox } from "../component";
+import { useState, useEffect, useRef } from "react";
+import { PRODUCT, URLPARAM } from "../component/types/responseAndStore";
+import { getAllProduct } from "../redux/features/product/productSlice";
+import { AppDispatch } from "../redux/store";
+import { SelectBox } from "../component";
+
+
 const Shop = () => {
   const breadcrumbs = [
     <Link key="1" to="/">
@@ -26,28 +28,38 @@ const Shop = () => {
   ];
 
   const [page, setPage] = useState(1);
-  const [urlParam, setUrlsParam] = useState({ limit: 10, skip: 0 });
-
-  console.log(page, "page");
+  
+  const load = useRef<Boolean>(false);
+  const urlParams2 = useRef<URLPARAM>({ limit: 10, skip: 0 });
 
   const { products, isLoading } = useSelector(
     (state: any) => state.productStore
   );
-  console.log(products, isLoading);
+  
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    // @ts-ignore
-    // dispatch(getAllProduct(urlParam));
-  }, [urlParam, page]);
+    if (!load.current && products.length === 0)
+    
+      dispatch(getAllProduct(urlParams2.current));
+    return () => {
+      load.current = true;
+    };
+  }, []);
 
-  // @ts-ignore
+  
   const handleChange = (e: any, p: number) => {
+  console.log(e , "event");
+  
     setPage(p);
-    // setSkip(p * limit);
+    if (products.length < urlParams2.current.limit * p) {
+      urlParams2.current.skip =
+        urlParams2.current.limit * p - urlParams2.current.limit;
+      dispatch(getAllProduct(urlParams2.current));
+    }
   };
 
-  // if (loading) return null;
+  
 
   return (
     <>
@@ -67,11 +79,11 @@ const Shop = () => {
         </Breadcrumbs>
       </Box>
       <Box className="bg-[#F9F1E7] h-20 flex items-center pl-5">
-        {/* <SelectBox /> */}
+        <SelectBox />
       </Box>
       <Box className="flex flex-wrap justify-evenly">
         {isLoading
-          ? products.map((value: Product) => {
+          ? products.map((value: PRODUCT) => {
               return (
                 <Skeleton
                   animation="wave"
@@ -82,16 +94,22 @@ const Shop = () => {
                 />
               );
             })
-          : products.map((value: Product) => {
-              return (
-                <Link to={`/products/${value.id}`} key={value.id}>
-                  <Card key={value.id} product={value} />
-                </Link>
-              );
-            })}
+          : products
+              .slice(
+                page * urlParams2.current.limit - urlParams2.current.limit,
+                page * urlParams2.current.limit
+              )
+              .map((value: PRODUCT) => {
+                return (
+                  <Link to={`/products/${value.id}`} key={value.id}>
+                    <Card key={value.id} product={value} />
+                  </Link>
+                );
+              })}
       </Box>
       <Box className="flex justify-center my-14">
         <Pagination
+          page={page}
           count={10}
           onChange={handleChange}
           variant="outlined"

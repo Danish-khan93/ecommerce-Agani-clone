@@ -1,32 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-// import { END_POINT_PRODUCTS } from "../../../Api/EndPoints";
+import {
+  PRODUCTSTORE,
+  URLPARAM,
+} from "../../../component/types/responseAndStore";
 export const getAllProduct = createAsyncThunk(
   "getAllProduct/products",
-  async (
-    { limit, skip }: { limit: number; skip: number },
-    { rejectWithValue }
-  ) => {
+  async (urlParams: URLPARAM, { rejectWithValue }) => {
     try {
-      console.log(limit);
-
+    
       const data = await axios.get(
-        `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
+        `https://dummyjson.com/products?limit=${urlParams.limit}&skip=${urlParams.skip}`
       );
-      console.log(data?.data);
+    
 
       return data?.data;
     } catch (error) {
-      // console.log(error);
+    
 
       return rejectWithValue(error);
     }
   }
 );
 
-const initialState = {
+const initialState: PRODUCTSTORE = {
   products: [],
-  // category:[],
   isLoading: true,
   isError: null,
 };
@@ -40,12 +38,9 @@ export const productSlice = createSlice({
     });
     builder.addCase(getAllProduct.fulfilled, (state, action) => {
       state.isLoading = false;
-      // @ts-ignore
-      state.products = action.payload.products;
-      // state.products.push( ...action.payload)
+      state.products = [...state.products, ...action.payload.products];
     });
     builder.addCase(getAllProduct.rejected, (state, action) => {
-      // @ts-ignore
       state.isError = action.payload;
     });
   },
