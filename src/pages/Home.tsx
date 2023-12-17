@@ -2,35 +2,39 @@ import { Box, Typography, Skeleton } from "@mui/material";
 import { HeroSection, Card, SecondHeroSetcion } from "../component";
 import { getAllProduct } from "../redux/features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AppDispatch } from "../redux/store";
+import { PRODUCT, URLPARAM } from "../component/types/responseAndStore";
 
 const Home = () => {
+  const load = useRef<Boolean>(false);
+
   // @ts-ignore
-  const [urlParam, setUrlsParam] = useState({ limit: 10, skip: 0 });
-  const dispatch = useDispatch();
-  const dataFromStore = useSelector((state: any) => {
-    return state.productStore.products;
+  const [urlParam, setUrlsParam] = useState<URLPARAM>({ limit: 10, skip: 0 });
+  const dispatch = useDispatch<AppDispatch>();
+  const { products, isLoading } = useSelector((state: any) => {
+    return state.productStore;
   });
-  const dataFromStoreLoading = useSelector((state: any) => {
-    return state.productStore.isLoading;
-  });
-  console.log(dataFromStore);
 
   useEffect(() => {
-    // @ts-ignore
-    dispatch(getAllProduct(urlParam));
+    if (!load.current && products.length === 0) {
+      dispatch(getAllProduct(urlParam));
+    }
+    return () => {
+      load.current = true;
+    };
   }, []);
 
-  const listOfProduct = dataFromStoreLoading ? (
+  const listOfProduct = isLoading ? (
     <Skeleton animation="wave" variant="rectangular" width={300} height={400} />
   ) : (
-    dataFromStore &&
-    dataFromStore.map((value: any) => {
+    products &&
+    products.map((value: PRODUCT) => {
       return <Card key={value.id} product={value} />;
     })
   );
 
-  if (dataFromStoreLoading) return null;
+  if (isLoading) return null;
   return (
     <>
       <HeroSection />
