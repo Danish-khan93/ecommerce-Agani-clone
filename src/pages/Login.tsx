@@ -1,21 +1,18 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { FORMTYPELOGIN } from "../component/types/formType";
 
-type FORMTYPE = {
-  email: String;
-  password: String;
-};
 
 const SignUp = () => {
-  const { register, handleSubmit } = useForm<FORMTYPE>({
+  const { register, handleSubmit } = useForm<FORMTYPELOGIN>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: FORMTYPE) => {
+  const onSubmit = (data: FORMTYPELOGIN) => {
     console.log(data);
   };
 

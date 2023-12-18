@@ -6,5 +6,6 @@ import NotFound from "./NotFound";
 import Product from "./Product";
 import SignUp from "./SignUp";
 import Login from "./Login"
+import Cart from "./Cart"
 
-export {Home,Shop,About,Contact,NotFound,Product,SignUp,Login}
+export {Home,Shop,About,Contact,NotFound,Product,SignUp,Login,Cart}

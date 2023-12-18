@@ -1,16 +1,14 @@
 import { Box, TextField, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-
-type FORMTYPE = {
-  firstName: String;
-  lastName: String;
-  email: String;
-  password: String;
-};
-
+import { FORMTYPESIGNUP } from "../component/types/formType";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { authentication } from "../redux/features/auth/authSLice";
 const SignUp = () => {
-  const { register, handleSubmit } = useForm<FORMTYPE>({
+  const dispatch = useDispatch<AppDispatch>();
+  // const navigate = useNavigate();
+  const { register, handleSubmit } = useForm<FORMTYPESIGNUP>({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -19,8 +17,10 @@ const SignUp = () => {
     },
   });
 
-  const onSubmit = (data: FORMTYPE) => {
+  const onSubmit = (data: FORMTYPESIGNUP) => {
     console.log(data);
+    dispatch(authentication(data));
+    // navigate("/cart");
   };
 
   return (

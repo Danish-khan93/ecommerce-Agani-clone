@@ -1,9 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
 // import App from "./App.tsx";
 import "./index.css";
 import { StyledEngineProvider } from "@mui/material";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import {
   About,
   Home,
@@ -13,10 +18,14 @@ import {
   NotFound,
   SignUp,
   Login,
+  Cart,
 } from "./pages";
 import Layout from "./LayOut/Layout";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+// @ts-ignore
+const authData = JSON.parse(localStorage.getItem("userToken"));
+console.log(authData);
 
 const router = createBrowserRouter([
   {
@@ -49,11 +58,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignUp />,
+        element: authData ? <Navigate to={"/"} replace={true} /> : <SignUp />,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: authData ? <Navigate to={"/"} replace={true} /> : <Login />,
+      },
+      {
+        path: "/cart",
+        element: authData ? (
+          <Cart />
+        ) : (
+          <Navigate to={"/signup"} replace={true} />
+        ),
       },
     ],
   },
