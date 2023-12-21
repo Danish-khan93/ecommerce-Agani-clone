@@ -37,7 +37,14 @@ const initialState: INITIALSTATETYPE = {
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state)=>{
+        state.success=false
+        state.userInfo={}
+        state.userToken=null
+        localStorage.clear()
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(authentication.pending, (state) => {
       state.isLoading = true;
@@ -57,5 +64,5 @@ const authSlice = createSlice({
   },
 });
 
-
-export default authSlice.reducer
+export const {logout} = authSlice.actions
+export default authSlice.reducer;

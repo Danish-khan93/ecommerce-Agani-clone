@@ -4,11 +4,7 @@ import ReactDOM from "react-dom/client";
 // import App from "./App.tsx";
 import "./index.css";
 import { StyledEngineProvider } from "@mui/material";
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import {
   About,
   Home,
@@ -23,9 +19,7 @@ import {
 import Layout from "./LayOut/Layout";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-// @ts-ignore
-const authData = JSON.parse(localStorage.getItem("userToken"));
-console.log(authData);
+import ProtectedRoutes from "./component/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -56,22 +50,25 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound />,
       },
+
       {
         path: "/signup",
-        element: authData ? <Navigate to={"/"} replace={true} /> : <SignUp />,
+        element: <SignUp />,
       },
       {
         path: "/login",
-        element: authData ? <Navigate to={"/"} replace={true} /> : <Login />,
+        element: <Login />,
       },
       {
-        path: "/cart",
-        element: authData ? (
-          <Cart />
-        ) : (
-          <Navigate to={"/signup"} replace={true} />
-        ),
-      },
+        element: <ProtectedRoutes/>,
+        children:[
+          {
+            path: "/cart",
+            element: <Cart />,
+          },
+        ]
+      }
+
     ],
   },
 ]);
