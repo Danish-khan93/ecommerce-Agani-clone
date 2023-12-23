@@ -1,16 +1,15 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { Navigate,Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({ children }: { children: JSX.Element }) => {
   const authData = useSelector((state: RootState) => {
     return state.auth.success;
   });
   console.log(authData);
 
-  return (
-    <>{authData ? <Outlet/> : <Navigate to={"/signup"} replace={true} />}</>
-  );
+  if(!authData) return <Navigate  to={"/signup"} replace={true}/>
+return children
 };
 
 export default ProtectedRoutes;

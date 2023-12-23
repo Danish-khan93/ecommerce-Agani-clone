@@ -15,15 +15,18 @@ import { Link } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
+import { useDispatch,useSelector } from "react-redux";
+import { AppDispatch,RootState } from "../redux/store";
 import { logout } from "../redux/features/auth/authSLice";
+// import { RootState } from "@reduxjs/toolkit/query";
 const Header = () => {
   const dispatch =useDispatch<AppDispatch>()
   const handleLogOut=()=>{
 dispatch(logout())
   }
-  const token = localStorage.getItem("userToken");
+  // @ts-ignore
+const {success} = useSelector<RootState|any>((state)=>state.auth)
+
   return (
     <AppBar className="bg-[#fff]  " position="static">
       <Toolbar className="flex justify-around">
@@ -45,7 +48,7 @@ dispatch(logout())
           })}
         </Box>
         <Box className="flex items-center gap-6 max-md:hidden">
-          {token ? (
+          {success ? (
             <Button onClick={handleLogOut}>logout</Button>
           ) : (
             <Link to={`${"signup"}`}>

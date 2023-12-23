@@ -60,15 +60,13 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        element: <ProtectedRoutes/>,
-        children:[
-          {
-            path: "/cart",
-            element: <Cart />,
-          },
-        ]
-      }
-
+        path:"/cart",
+        element: (
+          <ProtectedRoutes>
+            <Cart />
+          </ProtectedRoutes>
+        ),
+      },
     ],
   },
 ]);
