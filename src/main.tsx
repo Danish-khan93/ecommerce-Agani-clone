@@ -19,7 +19,7 @@ import {
 import Layout from "./LayOut/Layout";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import ProtectedRoutes from "./component/ProtectedRoutes";
+// import ProtectedRoutes from "./component/ProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -60,12 +60,8 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path:"/cart",
-        element: (
-          <ProtectedRoutes>
-            <Cart />
-          </ProtectedRoutes>
-        ),
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

@@ -9,27 +9,27 @@ import {
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { END_POINT_PRODUCTS } from "../Api/EndPoints";
+import { useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import { addingInCart } from "../redux/features/Cart/cartSlice";
+import { PRODUCT } from "../component/types/responseAndStore";
 const Product = () => {
+  const [productQuantity, setProductQuantity] = useState<number>(0);
   const { productid } = useParams();
-  const [product, setProduct] = useState<any>({});
-  console.log(product, "products");
 
-  const data = async () => {
-    try {
-      await axios.get(`${END_POINT_PRODUCTS}${productid}`).then((res) => {
-        setProduct(res.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  const dispatch = useDispatch<AppDispatch>();
+
+  // @ts-ignore
+  const { products } = useSelector<RootState>((state) => state.productStore);
+  // @ts-ignore
+  const product = products.find((value: PRODUCT) => value.id === +productid);
+
+  const addtoCartHandle = () => {
+    dispatch(addingInCart({ quantity: productQuantity, product: product }));
+    setProductQuantity(productQuantity + 1);
   };
-
-  useEffect(() => {
-    data();
-  }, []);
 
   console.log(productid, "param ");
 
@@ -61,6 +61,7 @@ const Product = () => {
           {product?.images?.map((value: String | any) => {
             return (
               <Typography
+                key={value}
                 className="w-[100px] h-[100px] rounded-lg"
                 component={"img"}
                 src={value}
@@ -83,7 +84,7 @@ const Product = () => {
             $ {product.price}
           </Typography>
           <Box className="flex items-center gap-5 my-5">
-            <Rating name="read-only" value={product.rating} readOnly />
+            <Rating value={product.rating} readOnly />
             <Divider
               className="text-[#9F9F9F] "
               flexItem
@@ -100,11 +101,33 @@ const Product = () => {
             Category : {product.category}
           </Typography>
           <Box className="flex gap-10">
-            <Box className="bg-white text-[#B88E2F] w-[100px] text-[12px] rounded-md font-bold border-solid border-2 border-[#B88E2F] flex justify-center items-center">
-              <Button className="text-[#B88E2F]">+</Button> 0
-              <Button className="text-[#B88E2F]">-</Button>
+            <Box className="bg-white text-[#B88E2F] w-[100px] text-[12px] rounded-md font-bold border-solid border-2 border-[#B88E2F] flex justify-center items-center px-4">
+              <Button
+                onClick={() => {
+                  productQuantity === 0
+                    ? setProductQuantity(0)
+                    : setProductQuantity(productQuantity - 1);
+                }}
+                className="text-[#B88E2F]"
+              >
+                -
+              </Button>
+              <Typography>{productQuantity}</Typography>
+              <Button
+                onClick={() => {
+                  productQuantity === product.stock
+                    ? setProductQuantity(product.stock)
+                    : setProductQuantity(productQuantity + 1);
+                }}
+                className="text-[#B88E2F]"
+              >
+                +
+              </Button>
             </Box>
-            <Button className="bg-white text-[#B88E2F] text-[12px] font-bold rounded-md border-solid border-2 border-[#B88E2F]">
+            <Button
+              onClick={addtoCartHandle}
+              className="bg-white text-[#B88E2F] text-[12px] font-bold rounded-md border-solid border-2 border-[#B88E2F]"
+            >
               Add To Cart
             </Button>
           </Box>

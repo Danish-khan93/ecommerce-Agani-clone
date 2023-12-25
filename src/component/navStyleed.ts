@@ -1,5 +1,5 @@
 export const navStyle = {
-  text: "text-black text-[16px] font-medium",
+  text: "text-black text-[20px] font-medium",
 };
 
 export const heroSectionStyle = {
