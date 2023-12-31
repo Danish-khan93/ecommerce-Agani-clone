@@ -2,14 +2,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Box, Typography, IconButton, Checkbox, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { RootState } from "../redux/store";
+import { AppDispatch, RootState } from "../redux/store";
 import { PRODUCT } from "../component/types/responseAndStore";
-
+import {incrementQunatity,decrementQunatity,removeProduct} from "../redux/features/Cart/cartSlice"
+type VALUETYPE = {
+  quantity: number;
+  product: PRODUCT;
+};
 const Cart = () => {
-  
-  const cartProduct: PRODUCT[] = useSelector((state: RootState) => state.cart);
-  console.log(cartProduct);
-  if (cartProduct.length === 0)
+  const dispatch =useDispatch<AppDispatch>()
+  const { productInCart } = useSelector((state: RootState) => state.cart);
+  console.log(productInCart);
+  if (productInCart.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen">
         <p className="text-2xl p-4 border border-gray-300 rounded text-center">
@@ -17,48 +21,56 @@ const Cart = () => {
         </p>
       </div>
     );
+  }
   return (
     <>
       <Box className="flex justify">
         <Box className="">
-          {cartProduct &&
-            cartProduct.map((value: PRODUCT) => {
-              return (
-                <Box
-                  key={value.id}
-                  className="flex justify-evenly gap-4 w-[70%] h-[200px] items-center bg-[#FFF3E3] mx-auto my-5 rounded-md px-2 shadow-md"
-                >
-                  <Box>
-                    <Checkbox />
+          {productInCart &&
+            productInCart.map(
+              // @ts-ignore
+              (value: VALUETYPE) => {
+                console.log(value);
+
+                return (
+                  <Box
+                    key={value.product.id}
+                    className="flex justify-evenly gap-4 w-[70%] h-[200px] items-center bg-[#FFF3E3] mx-auto my-5 rounded-md px-2 shadow-md"
+                  >
+                    <Box>
+                      <Checkbox />
+                    </Box>
+                    <Box>
+                      <Typography
+                        className="w-[150px] h-[150px]"
+                        component={"img"}
+                        src={value.product.thumbnail}
+                      ></Typography>
+                    </Box>
+                    <Box className="flex flex-col gap-4">
+                      <Typography className="text-[23px] font-semibold">
+                        {value.product.title}
+                      </Typography>
+                      <Typography>{value.product.description}</Typography>
+                      <Typography>Stock {value.product.stock}</Typography>
+                    </Box>
+                    <Box>
+                      <Typography>$ {value.product.price}</Typography>
+                      <IconButton onClick={()=>{dispatch(removeProduct(value?.product?.id))}}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                    <Box className="bg-white text-[#B88E2F] w-[100px] text-[12px] rounded-md font-bold border-solid border-2 border-[#B88E2F] flex justify-center items-center">
+                      <Button
+                      onClick={()=>{dispatch(decrementQunatity(value?.product?.id))}}
+                      className="text-[#B88E2F]">-</Button>
+                      <Typography>{value?.quantity}</Typography>
+                      <Button onClick={()=>{dispatch(incrementQunatity(value?.product?.id))}} className="text-[#B88E2F]">+</Button>
+                    </Box>
                   </Box>
-                  <Box>
-                    <Typography
-                      className="w-[150px] h-[150px]"
-                      component={"img"}
-                      src={value.thumbnail}
-                    ></Typography>
-                  </Box>
-                  <Box className="flex flex-col gap-4">
-                    <Typography className="text-[23px] font-semibold">
-                      {value.title}
-                    </Typography>
-                    <Typography>{value.description}</Typography>
-                    <Typography>Stock {value.stock}</Typography>
-                  </Box>
-                  <Box>
-                    <Typography>$ {value.price}</Typography>
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
-                  <Box className="bg-white text-[#B88E2F] w-[100px] text-[12px] rounded-md font-bold border-solid border-2 border-[#B88E2F] flex justify-center items-center">
-                    <Button className="text-[#B88E2F]">-</Button>
-                    <Typography>{0}</Typography>
-                    <Button className="text-[#B88E2F]">+</Button>
-                  </Box>
-                </Box>
-              );
-            })}
+                );
+              }
+            )}
         </Box>
         <Box className="flex flex-col justify-around  w-[20%] h-[200px] items-center bg-[#FFF3E3] mx-auto my-5 rounded-md shadow-md">
           <Box className="text-center">

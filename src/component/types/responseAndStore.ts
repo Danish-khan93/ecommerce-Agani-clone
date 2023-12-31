@@ -21,3 +21,8 @@ export type URLPARAM ={
   limit:number,
   skip:number
 }
+
+export type PRODUCTQUANTITY = {
+  quantity: number;
+  product: PRODUCT;
+};

@@ -75,7 +75,7 @@ console.log(quantity);
           </Link>
         </Box>
 
-        <Box className="2xl:hidden xl:hidden lg:hidden md:hidden    ">
+        <Box className="2xl:hidden xl:hidden lg:hidden md:hidden">
           <IconButton>
             <MenuIcon />
           </IconButton>

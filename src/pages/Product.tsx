@@ -9,14 +9,13 @@ import {
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { addingInCart } from "../redux/features/Cart/cartSlice";
 import { PRODUCT } from "../component/types/responseAndStore";
 const Product = () => {
-  const [productQuantity, setProductQuantity] = useState<number>(0);
   const { productid } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -25,10 +24,28 @@ const Product = () => {
   const { products } = useSelector<RootState>((state) => state.productStore);
   // @ts-ignore
   const product = products.find((value: PRODUCT) => value.id === +productid);
+  
+  const matchProductWithParam = useSelector(
+    // @ts-ignore
+    (state) => state.cart.productInCart
+  );
+  console.log(matchProductWithParam);
 
+  const finding = matchProductWithParam.find(
+    (value: { quantity: number; product: PRODUCT }) =>{
+// @ts-ignore
+      return  value?.product?.id === +productid
+    }
+  );
+  console.log(finding);
+  
   const addtoCartHandle = () => {
-    dispatch(addingInCart({ quantity: productQuantity, product: product }));
-    setProductQuantity(productQuantity + 1);
+    dispatch(
+      addingInCart({
+        quantity: 0,
+        product: product,
+      })
+    );
   };
 
   console.log(productid, "param ");
@@ -104,20 +121,20 @@ const Product = () => {
             <Box className="bg-white text-[#B88E2F] w-[100px] text-[12px] rounded-md font-bold border-solid border-2 border-[#B88E2F] flex justify-center items-center px-4">
               <Button
                 onClick={() => {
-                  productQuantity === 0
-                    ? setProductQuantity(0)
-                    : setProductQuantity(productQuantity - 1);
+                  // productQuantity === 0
+                  //   ? setProductQuantity(0)
+                  //   : setProductQuantity(productQuantity - 1);
                 }}
                 className="text-[#B88E2F]"
               >
                 -
               </Button>
-              <Typography>{productQuantity}</Typography>
+              <Typography>{finding=== undefined ? 0: finding.quantity}</Typography>
               <Button
                 onClick={() => {
-                  productQuantity === product.stock
-                    ? setProductQuantity(product.stock)
-                    : setProductQuantity(productQuantity + 1);
+                  // productQuantity === product.stock
+                  //   ? setProductQuantity(product.stock)
+                  //   : setProductQuantity(productQuantity + 1);
                 }}
                 className="text-[#B88E2F]"
               >
