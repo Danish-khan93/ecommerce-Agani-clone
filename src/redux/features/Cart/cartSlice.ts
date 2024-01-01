@@ -40,15 +40,21 @@ const cartSlice = createSlice({
 
       cartItem && cartItem.quantity--;
     },
-    removeProduct :(state,action)=>{
-      const listRemaining = state.productInCart.filter((value : PRODUCTQUANTITY) => {
-        return value?.product?.id !== action?.payload
-      })
-      state.productInCart = listRemaining
-    }
+    removeProduct: (state, action) => {
+      const listRemaining = state.productInCart.filter(
+        (value: PRODUCTQUANTITY) => {
+          return value?.product?.id !== action?.payload;
+        }
+      );
+      state.productInCart = listRemaining;
+    },
   },
 });
 
 export default cartSlice.reducer;
-export const { addingInCart, incrementQunatity, decrementQunatity,removeProduct } =
-  cartSlice.actions;
+export const {
+  addingInCart,
+  incrementQunatity,
+  decrementQunatity,
+  removeProduct,
+} = cartSlice.actions;

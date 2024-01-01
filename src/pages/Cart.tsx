@@ -4,13 +4,17 @@ import { Box, Typography, IconButton, Checkbox, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AppDispatch, RootState } from "../redux/store";
 import { PRODUCT } from "../component/types/responseAndStore";
-import {incrementQunatity,decrementQunatity,removeProduct} from "../redux/features/Cart/cartSlice"
+import {
+  incrementQunatity,
+  decrementQunatity,
+  removeProduct,
+} from "../redux/features/Cart/cartSlice";
 type VALUETYPE = {
   quantity: number;
   product: PRODUCT;
 };
 const Cart = () => {
-  const dispatch =useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { productInCart } = useSelector((state: RootState) => state.cart);
   console.log(productInCart);
   if (productInCart.length === 0) {
@@ -38,7 +42,9 @@ const Cart = () => {
                     className="flex justify-evenly gap-4 w-[70%] h-[200px] items-center bg-[#FFF3E3] mx-auto my-5 rounded-md px-2 shadow-md"
                   >
                     <Box>
-                      <Checkbox />
+                      <Checkbox
+                        onChange={(e: any) => console.log(e?.target?.value)}
+                      />
                     </Box>
                     <Box>
                       <Typography
@@ -56,16 +62,34 @@ const Cart = () => {
                     </Box>
                     <Box>
                       <Typography>$ {value.product.price}</Typography>
-                      <IconButton onClick={()=>{dispatch(removeProduct(value?.product?.id))}}>
+                      <IconButton
+                        onClick={() => {
+                          dispatch(removeProduct(value?.product?.id));
+                        }}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </Box>
                     <Box className="bg-white text-[#B88E2F] w-[100px] text-[12px] rounded-md font-bold border-solid border-2 border-[#B88E2F] flex justify-center items-center">
                       <Button
-                      onClick={()=>{dispatch(decrementQunatity(value?.product?.id))}}
-                      className="text-[#B88E2F]">-</Button>
+                        onClick={() => {
+                          if (value?.quantity !== 0)
+                            dispatch(decrementQunatity(value?.product?.id));
+                        }}
+                        className="text-[#B88E2F]"
+                      >
+                        -
+                      </Button>
                       <Typography>{value?.quantity}</Typography>
-                      <Button onClick={()=>{dispatch(incrementQunatity(value?.product?.id))}} className="text-[#B88E2F]">+</Button>
+                      <Button
+                        onClick={() => {
+                          if (value?.quantity !== value.product.stock)
+                            dispatch(incrementQunatity(value?.product?.id));
+                        }}
+                        className="text-[#B88E2F]"
+                      >
+                        +
+                      </Button>
                     </Box>
                   </Box>
                 );

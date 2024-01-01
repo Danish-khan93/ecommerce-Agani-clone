@@ -18,6 +18,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { logout } from "../redux/features/auth/authSLice";
+import { PRODUCTQUANTITY } from "./types/responseAndStore";
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,9 +27,17 @@ const Header = () => {
   };
   // @ts-ignore
   const { success } = useSelector<RootState | any>((state) => state.auth);
-  
-  const quantity = useSelector<RootState | any>((state) => state.cart);
-console.log(quantity);
+
+  const quantity: PRODUCTQUANTITY[] | any = useSelector<RootState | any>(
+    (state) => state?.cart?.productInCart
+  );
+  console.log(quantity);
+
+  const getTotalQuantity = () => {
+    let total = 0;
+    quantity.forEach((qty: PRODUCTQUANTITY) => (total += qty.quantity));
+    return total;
+  };
 
   return (
     <AppBar className="bg-[#fff]  " position="static">
@@ -68,7 +77,7 @@ console.log(quantity);
           <Link to={`${"cart"}`}>
             <div className={navStyle.text}>
               <span className="w-[10px] h-[10px] text-[12px] p-1 bg-[#B88E2F] rounded-full relative bottom-4 left-8">
-                {/* {quantity} */}
+                {getTotalQuantity() || 0}
               </span>
               <ShoppingCartIcon />
             </div>
