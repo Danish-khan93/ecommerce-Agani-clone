@@ -25,4 +25,5 @@ export type URLPARAM ={
 export type PRODUCTQUANTITY = {
   quantity: number;
   product: PRODUCT;
+  isChecked: boolean
 };

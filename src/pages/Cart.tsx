@@ -8,6 +8,7 @@ import {
   incrementQunatity,
   decrementQunatity,
   removeProduct,
+  isCheckedTo,
 } from "../redux/features/Cart/cartSlice";
 type VALUETYPE = {
   quantity: number;
@@ -43,7 +44,10 @@ const Cart = () => {
                   >
                     <Box>
                       <Checkbox
-                        onChange={(e: any) => console.log(e?.target?.value)}
+                      // @ts-ignore
+                        onChange={(e: any) =>
+                          dispatch(isCheckedTo(Number(value?.product.id)))
+                        }
                       />
                     </Box>
                     <Box>

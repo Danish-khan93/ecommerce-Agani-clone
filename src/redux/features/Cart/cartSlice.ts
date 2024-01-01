@@ -3,6 +3,7 @@ import { PRODUCT } from "../../../component/types/responseAndStore";
 type PRODUCTQUANTITY = {
   quantity: number;
   product: PRODUCT;
+  isChecked: boolean;
 };
 
 type CARTTYPE = {
@@ -48,6 +49,14 @@ const cartSlice = createSlice({
       );
       state.productInCart = listRemaining;
     },
+    isCheckedTo: (state, action) => {
+      const cartItem = state.productInCart.find((value: PRODUCTQUANTITY) => {
+        return value?.product?.id === action.payload;
+      });
+      if (cartItem) {
+        cartItem.isChecked = true;
+      }
+    },
   },
 });
 
@@ -57,4 +66,5 @@ export const {
   incrementQunatity,
   decrementQunatity,
   removeProduct,
+  isCheckedTo
 } = cartSlice.actions;
