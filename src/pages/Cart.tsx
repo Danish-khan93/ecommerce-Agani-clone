@@ -117,6 +117,7 @@ const Cart = () => {
             </Button>
           </Box>
         </Box>
+        <Typography>hello</Typography>
       </Box>
     </>
   );
