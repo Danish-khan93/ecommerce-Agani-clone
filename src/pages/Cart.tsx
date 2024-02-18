@@ -36,6 +36,12 @@ const navigate =useNavigate()
       </div>
     );
   }
+  const total = productInCart.reduce((acc,cartItem)=> {
+    return acc +=cartItem.quantity
+  },0) 
+  const totalBill = productInCart.reduce((acc,cartItem)=> {
+    return acc += cartItem.quantity * cartItem.product.price
+  },0) 
   return (
     <>
       <Box className="flex justify">
@@ -114,11 +120,11 @@ const navigate =useNavigate()
             <Typography className="text-[32px]">Order Summary</Typography>
           </Box>
           <Box className="text-center">
-            <Typography>Subtotal ( 0 items )</Typography>
+          <Typography>Subtotal ( {total} items )</Typography>
           </Box>
           <Box className="flex gap-20">
             <Typography>Total</Typography>
-            <Typography>Total</Typography>
+            <Typography>{totalBill}</Typography>
           </Box>
           <Box className="flex justify-center">
             <Button className="bg-[#B88E2F] text-[#fff] text-[12px] font-bold rounded-md border-solid border-2 border-[#B88E2F] py-[12px] px-[16px]">
@@ -126,7 +132,7 @@ const navigate =useNavigate()
             </Button>
           </Box>
         </Box>
-        <Typography>hello</Typography>
+        
       </Box>
     </>
   );

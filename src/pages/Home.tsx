@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { AppDispatch } from "../redux/store";
 import { PRODUCT, URLPARAM } from "../component/types/responseAndStore";
-
+import { Link } from "react-router-dom";
 const Home = () => {
   const load = useRef<Boolean>(false);
 
@@ -30,7 +30,11 @@ const Home = () => {
   ) : (
     products &&
     products.map((value: PRODUCT) => {
-      return <Card key={value.id} product={value} />;
+      return (
+        <Link to={`/products/${value.id}`} key={value.id}>
+          <Card key={value.id} product={value} />
+        </Link>
+      );
     })
   );
 
