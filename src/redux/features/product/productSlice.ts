@@ -8,16 +8,13 @@ export const getAllProduct = createAsyncThunk(
   "getAllProduct/products",
   async (urlParams: URLPARAM, { rejectWithValue }) => {
     try {
-    
       const data = await axios.get(
-        `https://dummyjson.com/products?limit=${urlParams.limit}&skip=${urlParams.skip}`
+        // `https://dummyjson.com/products?limit=${urlParams.limit}&skip=${urlParams.skip}`
+        `${import.meta.env.VITE_PRODUCT_URL}?limit=${urlParams.limit}&skip=${urlParams.skip}`
       );
-    
 
       return data?.data;
     } catch (error) {
-    
-
       return rejectWithValue(error);
     }
   }
