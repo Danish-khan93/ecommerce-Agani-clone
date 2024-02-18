@@ -2,9 +2,21 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FORMTYPELOGIN } from "../component/types/formType";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-
-const SignUp = () => {
+const Login = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let authToken = sessionStorage.getItem("Auth Token");
+    if (authToken) {
+      navigate("/cart");
+    }
+  }, []);
   const { register, handleSubmit } = useForm<FORMTYPELOGIN>({
     defaultValues: {
       email: "",
@@ -13,7 +25,20 @@ const SignUp = () => {
   });
 
   const onSubmit = (data: FORMTYPELOGIN) => {
-    console.log(data);
+    signInWithEmailAndPassword(auth, data?.email, data?.password)
+      .then((response) => {
+        navigate("/cart");
+        sessionStorage.setItem(
+          "Auth Token",
+          // @ts-ignore
+          response._tokenResponse.refreshToken
+        );
+      })
+      .catch((error) => {
+        if (error.code === "auth/too-many-requests") {
+          toast("invailed email and password");
+        }
+      });
   };
 
   return (
@@ -39,8 +64,9 @@ const SignUp = () => {
           className="bg-[#B88E2F] text-[#FFF] hover:bg-[#B88E2F] "
           type="submit"
         >
-          Signup
+          Login
         </Button>
+        <ToastContainer />
       </form>
       <Typography className="text-[#9F9F9F] text-[16px]">
         If You are already sign up ?{" "}
@@ -52,4 +78,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;

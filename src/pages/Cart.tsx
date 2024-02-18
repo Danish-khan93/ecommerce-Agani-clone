@@ -4,17 +4,26 @@ import { Box, Typography, IconButton, Checkbox, Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { AppDispatch, RootState } from "../redux/store";
 import { PRODUCT } from "../component/types/responseAndStore";
+import { useNavigate } from "react-router-dom";
 import {
   incrementQunatity,
   decrementQunatity,
   removeProduct,
   isCheckedTo,
 } from "../redux/features/Cart/cartSlice";
+import { useEffect } from "react";
 type VALUETYPE = {
   quantity: number;
   product: PRODUCT;
 };
 const Cart = () => {
+const navigate =useNavigate()
+  useEffect(()=>{
+    let authToken = sessionStorage.getItem('Auth Token')
+    if(!authToken){
+      navigate("/login")
+    }
+  },[])
   const dispatch = useDispatch<AppDispatch>();
   const { productInCart } = useSelector((state: RootState) => state.cart);
   console.log(productInCart);

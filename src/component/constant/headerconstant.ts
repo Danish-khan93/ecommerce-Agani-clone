@@ -11,10 +11,10 @@ export const navLink = [
     link: "/shop",
     title: "shop",
   },
-  {
-    link: "/about",
-    title: "about",
-  },
+  // {
+  //   link: "/about",
+  //   title: "about",
+  // },
   {
     link: "/contact",
     title: "contact",

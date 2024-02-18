@@ -11,25 +11,26 @@ import { navStyle } from "./navStyleed";
 import { navLink } from "./constant/headerconstant";
 import { NAVLINKTYPO } from "./types/navTypes";
 import logo from "../assets/headerIcon/Meubel House_Logos-05.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
-import { logout } from "../redux/features/auth/authSLice";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import { PRODUCTQUANTITY } from "./types/responseAndStore";
 
 const Header = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const handleLogOut = () => {
-    dispatch(logout());
+    sessionStorage.removeItem("Auth Token");
+    navigate("/login");
+    console.log("logout");
   };
   // @ts-ignore
-  const { success } = useSelector<RootState | any>((state) => state.auth);
+  // const { success } = useSelector<RootState | any>((state) => state.auth);
 
-  const quantity: PRODUCTQUANTITY[] | any = useSelector<RootState | any>(
-    (state) => state?.cart?.productInCart
+  const quantity: PRODUCTQUANTITY[] | any = useSelector(
+    (state: RootState) => state?.cart?.productInCart
   );
   console.log(quantity);
 
@@ -40,7 +41,7 @@ const Header = () => {
   };
 
   return (
-    <AppBar className="bg-[#fff]  " position="static">
+    <AppBar className="bg-[#fff]" position="static">
       <Toolbar className="flex justify-around">
         <Box className="flex items-center gap-2">
           <Typography component={"img"} src={logo}></Typography>
@@ -60,7 +61,7 @@ const Header = () => {
           })}
         </Box>
         <Box className="flex items-center gap-6 max-md:hidden">
-          {success ? (
+          {sessionStorage.getItem("Auth Token") ? (
             <Button onClick={handleLogOut}>logout</Button>
           ) : (
             <Link to={`${"signup"}`}>

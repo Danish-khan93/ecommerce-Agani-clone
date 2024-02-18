@@ -2,11 +2,21 @@ import { Box, TextField, Button, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate} from "react-router-dom";
 import { FORMTYPESIGNUP } from "../component/types/formType";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
-import { authentication } from "../redux/features/auth/authSLice";
+import {useEffect} from "react"
+// import { useDispatch } from "react-redux";
+// import { AppDispatch } from "../redux/store";
+// import { authentication } from "../redux/features/auth/authSLice";
+// firebase
+import {  createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 const SignUp = () => {
-  const dispatch = useDispatch<AppDispatch>();
+useEffect(()=>{
+  let authToken = sessionStorage.getItem('Auth Token')
+  if(authToken){
+    navigate("/cart")
+  }
+},[])
+  // const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<FORMTYPESIGNUP>({
     defaultValues: {
@@ -18,9 +28,26 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data: FORMTYPESIGNUP) => {
-    console.log(data);
-    await dispatch(authentication(data));
-    navigate("/cart");
+    
+    await createUserWithEmailAndPassword(auth,data?.email,data?.password)
+    .then((response) => {
+      // Signed in
+      // @ts-ignore
+      console.log(response?._tokenResponse?.refreshToken,"h");
+      // @ts-ignore
+      sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+      navigate("/cart")
+      // ...
+  })
+  .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      
+  });
+    // console.log(data);
+    // await dispatch(authentication(data));
+    // navigate("/cart");
     
   };
 

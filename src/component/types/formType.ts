@@ -1,11 +1,11 @@
 export type FORMTYPELOGIN = {
-  email: String;
-  password: String;
+  email: string;
+  password: string;
 };
 
 export type FORMTYPESIGNUP = {
-  firstName: String;
-  lastName: String;
-  email: String;
-  password: String;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 };
