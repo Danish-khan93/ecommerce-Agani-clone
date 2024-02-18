@@ -12,7 +12,7 @@ import { navLink } from "./constant/headerconstant";
 import { NAVLINKTYPO } from "./types/navTypes";
 import logo from "../assets/headerIcon/Meubel House_Logos-05.png";
 import { Link, useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useSelector } from "react-redux";
@@ -62,7 +62,7 @@ const Header = () => {
         </Box>
         <Box className="flex items-center gap-6 max-md:hidden">
           {sessionStorage.getItem("Auth Token") ? (
-            <Button onClick={handleLogOut}>logout</Button>
+            <Button className="text-[#B88E2F] border-solid border-2 border-text-[#B88E2F]" onClick={handleLogOut}>logout</Button>
           ) : (
             <Link to={`${"signup"}`}>
               <div className={navStyle.text}>
@@ -70,15 +70,15 @@ const Header = () => {
               </div>
             </Link>
           )}
-          <Link to={`${"search"}`}>
+          {/* <Link to={`${"search"}`}>
             <div className={navStyle.text}>
               <SearchIcon />
             </div>
-          </Link>
+          </Link> */}
           <Link to={`${"cart"}`}>
             <div className={navStyle.text}>
               <span className="w-[10px] h-[10px] text-[12px] p-1 bg-[#B88E2F] rounded-full relative bottom-4 left-8">
-                {getTotalQuantity() || 0}
+                {sessionStorage.getItem("Auth Token") ? getTotalQuantity() : 0}
               </span>
               <ShoppingCartIcon />
             </div>

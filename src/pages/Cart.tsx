@@ -17,13 +17,13 @@ type VALUETYPE = {
   product: PRODUCT;
 };
 const Cart = () => {
-const navigate =useNavigate()
-  useEffect(()=>{
-    let authToken = sessionStorage.getItem('Auth Token')
-    if(!authToken){
-      navigate("/login")
+  const navigate = useNavigate();
+  useEffect(() => {
+    let authToken = sessionStorage.getItem("Auth Token");
+    if (!authToken) {
+      navigate("/login");
     }
-  },[])
+  }, []);
   const dispatch = useDispatch<AppDispatch>();
   const { productInCart } = useSelector((state: RootState) => state.cart);
   console.log(productInCart);
@@ -36,12 +36,19 @@ const navigate =useNavigate()
       </div>
     );
   }
-  const total = productInCart.reduce((acc,cartItem)=> {
-    return acc +=cartItem.quantity
-  },0) 
-  const totalBill = productInCart.reduce((acc,cartItem)=> {
-    return acc += cartItem.quantity * cartItem.product.price
-  },0) 
+  const total = productInCart.reduce((acc, cartItem) => {
+    return (acc += cartItem.quantity);
+  }, 0);
+  const totalBill = productInCart.reduce((acc, cartItem) => {
+    return (acc += cartItem.quantity * cartItem.product.price);
+  }, 0);
+
+
+const checkOutHandle =()=>{
+  console.log("hello  check out ");
+  
+}
+
   return (
     <>
       <Box className="flex justify">
@@ -59,7 +66,7 @@ const navigate =useNavigate()
                   >
                     <Box>
                       <Checkbox
-                      // @ts-ignore
+                        // @ts-ignore
                         onChange={(e: any) =>
                           dispatch(isCheckedTo(Number(value?.product.id)))
                         }
@@ -120,19 +127,18 @@ const navigate =useNavigate()
             <Typography className="text-[32px]">Order Summary</Typography>
           </Box>
           <Box className="text-center">
-          <Typography>Subtotal ( {total} items )</Typography>
+            <Typography>Subtotal ( {total} items )</Typography>
           </Box>
           <Box className="flex gap-20">
             <Typography>Total</Typography>
             <Typography>{totalBill}</Typography>
           </Box>
           <Box className="flex justify-center">
-            <Button className="bg-[#B88E2F] text-[#fff] text-[12px] font-bold rounded-md border-solid border-2 border-[#B88E2F] py-[12px] px-[16px]">
+            <Button onClick={checkOutHandle} className="bg-[#B88E2F] hover:bg-[#B88E2F] text-[#fff] text-[12px] font-bold rounded-md border-solid border-2 border-[#B88E2F] py-[12px] px-[16px]">
               Proceed To Checkout
             </Button>
           </Box>
         </Box>
-        
       </Box>
     </>
   );
