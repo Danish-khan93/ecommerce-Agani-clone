@@ -35,7 +35,8 @@ const Login = () => {
         );
       })
       .catch((error) => {
-        if (error.code === "auth/too-many-requests") {
+        console.log(error.code);
+        if (error.code === "auth/invalid-credential") {
           toast("invailed email and password");
         }
       });
