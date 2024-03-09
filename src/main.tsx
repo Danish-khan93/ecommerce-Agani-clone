@@ -19,7 +19,7 @@ import {
 import Layout from "./LayOut/Layout";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-// import ProtectedRoutes from "./component/ProtectedRoutes";
+
 
 const router = createBrowserRouter([
   {
